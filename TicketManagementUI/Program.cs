@@ -15,6 +15,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DbConn"));
 });
 
+builder.Services.AddAuthentication()
+	.AddCookie(IdentityConstants.ApplicationScheme);
 builder.Services.AddIdentityCore<User>()
 	.AddEntityFrameworkStores<AppDbContext>()
 	.AddSignInManager();
