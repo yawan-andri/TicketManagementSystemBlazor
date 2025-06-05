@@ -16,12 +16,39 @@ namespace Infrastructure.Services
 		}
 		public Task<BaseResponse> RegisterUser(RegisterUserRequest request)
 		{
-			throw new NotImplementedException();
+			User user = new User
+			{
+				UserName = request.Email,
+				Email = request.Email,
+				AccountConfirmed = false
+			};
+
+			string password = "NeedRest%123";
 		}
 
-		public Task<BaseResponse<string>> VerifyUser(string email, string password)
+		public async Task<BaseResponse<string>> VerifyUser(string email, string password)
 		{
-			throw new NotImplementedException();
+			BaseResponse<string> response = new();
+
+			var user = await signInManager.UserManager.FindByEmailAsync(email);
+			if (user == null) 
+			{
+				response.ErrorMessage = "User is not found";
+				response.IsSuccess = false;
+				return response;
+			}
+
+			var result = await signInManager.UserManager.CheckPasswordAsync(user, password);
+			response.IsSuccess = result;
+			if (!result)
+			{
+				response.ErrorMessage = "Invalid Email or password";
+			} else
+			{
+				response.Value = user.UserName;
+			}
+
+			return response;
 		}
 	}
 }
