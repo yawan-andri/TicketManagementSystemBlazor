@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Infrastructure.Common
+﻿namespace Infrastructure.Common
 {
-	internal class Constants
+	public class Constants
 	{
+		public const string DEFAULT_PASSWORD = "NeedRest%123";
 	}
 }

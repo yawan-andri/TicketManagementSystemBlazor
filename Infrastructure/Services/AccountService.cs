@@ -2,6 +2,7 @@
 using Domain.DTO.Response;
 using Domain.Entities;
 using Domain.Interfaces;
+using Infrastructure.Common;
 using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Services
@@ -14,7 +15,7 @@ namespace Infrastructure.Services
 		{
 			this.signInManager = signInManager;
 		}
-		public Task<BaseResponse> RegisterUser(RegisterUserRequest request)
+		public async Task<BaseResponse> RegisterUser(RegisterUserRequest request)
 		{
 			User user = new User
 			{
@@ -23,7 +24,13 @@ namespace Infrastructure.Services
 				AccountConfirmed = false
 			};
 
-			string password = "NeedRest%123";
+			string password = Constants.DEFAULT_PASSWORD;
+
+			var result = await signInManager.UserManager.CreateAsync(user, password);
+			return new BaseResponse
+			{
+				IsSuccess = result.Succeeded
+			};
 		}
 
 		public async Task<BaseResponse<string>> VerifyUser(string email, string password)
