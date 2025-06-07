@@ -9,7 +9,7 @@
 @inject IAccountService accountService
 @inject SignInManager<User> signInManager
 @inject NavigationManager nav
-	
+
 <section class="vh-100">
 	<div class="container-fluid h-custom">
 		<div class="row d-flex justify-content-center align-items-center h-100">
@@ -20,7 +20,8 @@
 				<div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
 					<p class="lead fw-normal mb-0 me-3">Sign in with email</p>
 				</div>
-				<MudAlert Severity="Severity.Success">The reactor is running at optimum temperature</MudAlert>
+
+				<Alert @ref="alert"/>
 				<EditForm Model="Input" method="post" OnValidSubmit="OnLogin" FormName="Login">
 					<DataAnnotationsValidator />
 					<hr />
@@ -51,6 +52,9 @@
 
 
 @code {
+	private Alert alert;	
+
+
 	[SupplyParameterFromForm]
 	private InputModel Input { get; set; } = new();
 
@@ -69,7 +73,7 @@
 		var verify = await accountService.VerifyUser(Input.Email, Input.Password);
 		if (!verify.IsSuccess)
 		{
-			// Alert
+			alert.ShowFailed(verify.ErrorMessage);
 			return;
 		}
 
