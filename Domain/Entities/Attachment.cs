@@ -9,11 +9,11 @@ namespace Domain.Entities
 		public string ServerFileName { get; set; }
 		public int FileSize { get; set; }
 		public DateTime CreatedDate { get; set; }
-		public int? TicketId { get; set; }
 		[ForeignKey(nameof(Ticket))]
+		public int? TicketId { get; set; }
 		public Ticket Ticket { get; set; }
-		public int DiscussionId { get; set; }
 		[ForeignKey(nameof(Discussion))]
+		public int DiscussionId { get; set; }
 		public Discussion Discussion { get; set; }	
 	}
 }

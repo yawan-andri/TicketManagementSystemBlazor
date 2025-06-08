@@ -17,8 +17,9 @@ namespace Domain.Entities
 		public string UserId { get; set; }
 		[ForeignKey(nameof(UserId))]
 		public User User { get; set; }
-		public int TicketId { get; set; }
+
 		[ForeignKey(nameof(Ticket))]
+		public int TicketId { get; set; }
 		public Ticket Ticket { get; set; }	
 		public virtual ICollection<Attachment> Attachments { get; set; }
 	}
