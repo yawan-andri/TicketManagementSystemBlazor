@@ -9,7 +9,8 @@ namespace Infrastructure.Repository
 		private readonly IdentityDbContext context;
 		private Hashtable repositories;
 
-		public UnitOfWork(IdentityDbContext context)
+		public ITicketRepository TicketRepository { get; }
+		public UnitOfWork(IdentityDbContext context, ITicketRepository ticketRepository)
 		{
 			this.context = context;
 		}

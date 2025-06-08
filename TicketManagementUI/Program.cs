@@ -35,6 +35,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ICriteriaService, CriteriaService>();
 builder.Services.AddScoped(typeof(EncryptionHelper<>));
 
 builder.Services.AddMudServices();
