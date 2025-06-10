@@ -14,6 +14,7 @@ namespace Infrastructure.Repository
 		public UnitOfWork(AppDbContext context, ITicketRepository ticketRepository)
 		{
 			this.context = context;
+			this.TicketRepository = ticketRepository;
 		}
 		public async Task<int> SaveChanges()
 		{
