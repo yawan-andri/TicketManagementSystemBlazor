@@ -1,6 +1,7 @@
 ﻿using Domain.DTO.Request;
 using Domain.Entities;
 using Domain.Repository;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,7 @@ namespace Infrastructure.Repository
 {
 	public class TicketRepository : GenericRepository<Ticket>, ITicketRepository
 	{
-		public TicketRepository(IdentityDbContext dbContext) : base(dbContext)
+		public TicketRepository(AppDbContext dbContext) : base(dbContext)
 		{
 		}
 
