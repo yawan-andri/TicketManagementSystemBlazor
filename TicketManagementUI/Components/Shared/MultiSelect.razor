@@ -1,4 +1,5 @@
 ﻿<MudSelect 
+    @ref ="ddl"
     T="string" 
     Label="@label" 
     MultiSelection="true"
@@ -8,35 +9,20 @@
     Variant="Variant.Outlined"
     MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))"
 >
-    @foreach (var state in _states)
+    @foreach (var element in elements)
     {
-        <MudSelectItem T="string" Value="@state">@state</MudSelectItem>
+        <MudSelectItem T="string" Value="@element.Value">@element.Text</MudSelectItem>
     }
 </MudSelect>
 
 @code {
 
     [Parameter] public string label { get; set; }
+    [Parameter] public List<SelectItem> elements { get; set; }
 
-    private string _value = "Nothing selected";
-    private IEnumerable<string> _options = new HashSet<string> { "Alaska" };
-    private readonly string[] _states =
-    [
-        "Alabama", "Alaska", "American Samoa", "Arizona",
-        "Arkansas", "California", "Colorado", "Connecticut",
-        "Delaware", "District of Columbia", "Federated States of Micronesia",
-        "Florida", "Georgia", "Guam", "Hawaii", "Idaho",
-        "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
-        "Louisiana", "Maine", "Marshall Islands", "Maryland",
-        "Massachusetts", "Michigan", "Minnesota", "Mississippi",
-        "Missouri", "Montana", "Nebraska", "Nevada",
-        "New Hampshire", "New Jersey", "New Mexico", "New York",
-        "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio",
-        "Oklahoma", "Oregon", "Palau", "Pennsylvania", "Puerto Rico",
-        "Rhode Island", "South Carolina", "South Dakota", "Tennessee",
-        "Texas", "Utah", "Vermont", "Virgin Island", "Virginia",
-        "Washington", "West Virginia", "Wisconsin", "Wyoming"
-    ];
+    private IEnumerable<string> _options = new HashSet<string> { "" };
+
+    private MudSelect<string> ddl;
 
     private string GetMultiSelectionText(List<string> selectedValues)
     {
@@ -48,5 +34,10 @@
         {
             return label;
         }
+    }
+
+    public void Clear()
+    {
+        ddl.Clear();
     }
 }

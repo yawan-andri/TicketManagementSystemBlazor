@@ -26,10 +26,22 @@
     .mud-table-row {
         cursor: pointer !important;
     }
+
+    .mud-grid-item {
+        padding-bottom: .3rem;
+    }
 </style>
 
 <div class="filter-panel">
-    Filter Here
+    <MudGrid>
+        <MudItem>
+            <MudTextField 
+                Class="pt-2"
+                Variant="Variant.Outlined"
+
+                />
+        </MudItem>
+    </MudGrid>
 </div>
 
 <MudDataGrid @ref="dataGrid" 
