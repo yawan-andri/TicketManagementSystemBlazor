@@ -3,8 +3,8 @@
     T="string" 
     Label="@label" 
     MultiSelection="true"
-    @bind-SelectedValues="_options"
-    SelectAll = "true",
+    @bind-SelectedValues="options"
+    SelectAll = "true"
     SelectAllText="Select All"
     Variant="Variant.Outlined"
     MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))"
@@ -20,7 +20,7 @@
     [Parameter] public string label { get; set; }
     [Parameter] public List<SelectItem> elements { get; set; }
 
-    private IEnumerable<string> _options = new HashSet<string> { "" };
+    public IEnumerable<string> options { get; set; } = new HashSet<string>() { };
 
     private MudSelect<string> ddl;
 

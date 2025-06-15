@@ -4,6 +4,7 @@
 
 @inject ITicketService ticketService
 @inject ICriteriaService criteriaService
+@inject IAccountService accountService
 
 <MudPopoverProvider />
 <SectionContent SectionName="page-title">Ticket Management</SectionContent>
@@ -129,11 +130,23 @@
                     .ToList();
 
         status = criteriaService.GetStatus().Select(x => new SelectItem { Value = x, Text = x }).ToList();
+
+        raisedby = accountService.GetUsers()
+                    .Select(x => new SelectItem { Value = x.Id, Text = x.Email })
+                    .ToList();
     }
 
     private async Task<GridData<GetTicketResponse>> ServerReload(GridState<GetTicketResponse> state)
     {
-        IEnumerable<GetTicketResponse> getTickets = ticketService.GetTickets(new Domain.DTO.Request.GetTicketRequest());
+        IEnumerable<GetTicketResponse> getTickets = ticketService.GetTickets(new GetTicketRequest()
+        {
+            summary = Summary,
+            ProductId = productDDL.options.Select(x => int.Parse(x)).ToArray(),
+            CategoryId = categoryDDL.options.Select(x => int.Parse(x)).ToArray(),
+            PriorityId = priorityDDL.options.Select(x => int.Parse(x)).ToArray(),
+            Status = statusDDL.options.ToArray(),
+            RaisedBy = raisedbyDDL.options.ToArray()
+        });
 
         await Task.Delay(300);
 
@@ -145,5 +158,17 @@
             TotalItems = totalItems,
             Items = pagedData
         };
+    }
+
+    private Task Reset ()
+    {
+        productDDL.Clear();
+        priorityDDL.Clear();
+        categoryDDL.Clear();
+        statusDDL.Clear();
+        raisedbyDDL.Clear();
+        Summary = string.Empty;
+
+        return dataGrid.ReloadServerData();
     }
 }
