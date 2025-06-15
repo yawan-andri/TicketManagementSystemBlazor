@@ -3,6 +3,7 @@
 @rendermode InteractiveServer
 
 @inject ITicketService ticketService
+@inject ICriteriaService criteriaService
 
 <MudPopoverProvider />
 <SectionContent SectionName="page-title">Ticket Management</SectionContent>
@@ -36,10 +37,35 @@
     <MudGrid>
         <MudItem>
             <MudTextField 
+                @bind-Value="Summary"
                 Class="pt-2"
                 Variant="Variant.Outlined"
-
-                />
+                Adornment="Adornment.Start"
+                AdornmentIcon="@Icons.Material.Filled.Search"
+                AdornmentColor="Color.Dark" />
+        </MudItem>
+        <MudItem>
+            <MultiSelect @ref="productDDL" elements="products" label="Product"></MultiSelect>
+        </MudItem>
+        <MudItem>
+            <MultiSelect @ref="priorityDDL" elements="priorities" label="Priority"></MultiSelect>
+        </MudItem>
+        <MudItem>
+            <MultiSelect @ref="categoryDDL" elements="categories" label="Category"></MultiSelect>
+        </MudItem>
+        <MudItem>
+            <MultiSelect @ref="statusDDL" elements="status" label="Status"></MultiSelect>
+        </MudItem>
+        <MudItem>
+            <MultiSelect @ref="raisedbyDDL" elements="raisedby" label="Raised By"></MultiSelect>
+        </MudItem>
+        <MudItem class="d-flex align-center flex-grow-1 gap-3">
+            <MudButton Variant="Variant.Filled" @onclick="() => dataGrid.ReloadServerData()" Color="Color.Primary">
+                <MudText>Search</MudText>
+            </MudButton>
+            <MudButton Variant="Variant.Filled" @onclick="Reset" Color="Color.Dark">
+                <MudText>Reset</MudText>
+            </MudButton>
         </MudItem>
     </MudGrid>
 </div>
@@ -67,7 +93,43 @@
 
 @code {
     MudDataGrid<GetTicketResponse> dataGrid;
-    string searchString = null;
+
+    MultiSelect productDDL;
+    MultiSelect priorityDDL;
+    MultiSelect categoryDDL;
+    MultiSelect statusDDL;
+    MultiSelect raisedbyDDL;
+
+    public string Summary { get; set; }
+
+    private List<SelectItem> products;
+    private List<SelectItem> priorities;
+    private List<SelectItem> categories;
+    private List<SelectItem> status;
+    private List<SelectItem> raisedby;
+
+    protected override Task OnInitializedAsync()
+    {
+        InitializeDropDown();
+        return Task.CompletedTask;
+    }
+
+    private void InitializeDropDown()
+    {
+        products = criteriaService.GetProducts()
+                    .Select(x => new SelectItem{ Value = x.ProductId.ToString(), Text = x.ProductName })
+                    .ToList();
+
+        priorities = criteriaService.GetPriorities()
+                    .Select(x => new SelectItem { Value = x.PriorityId.ToString(), Text = x.PriorityName })
+                    .ToList();
+
+        categories = criteriaService.GetCategories()
+                    .Select(x => new SelectItem { Value = x.CategoryId.ToString(), Text = x.CategoryName })
+                    .ToList();
+
+        status = criteriaService.GetStatus().Select(x => new SelectItem { Value = x, Text = x }).ToList();
+    }
 
     private async Task<GridData<GetTicketResponse>> ServerReload(GridState<GetTicketResponse> state)
     {
