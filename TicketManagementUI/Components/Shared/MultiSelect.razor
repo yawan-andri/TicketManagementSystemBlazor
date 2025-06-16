@@ -1,10 +1,10 @@
 ﻿<MudSelect 
-    @ref ="ddl"
+    @ref="ddl"
     T="string" 
     Label="@label" 
     MultiSelection="true"
     @bind-SelectedValues="options"
-    SelectAll = "true"
+    SelectAll="true"
     SelectAllText="Select All"
     Variant="Variant.Outlined"
     MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))"
@@ -16,12 +16,9 @@
 </MudSelect>
 
 @code {
-
     [Parameter] public string label { get; set; }
     [Parameter] public List<SelectItem> elements { get; set; }
-
     public IEnumerable<string> options { get; set; } = new HashSet<string>() { };
-
     private MudSelect<string> ddl;
 
     private string GetMultiSelectionText(List<string> selectedValues)
