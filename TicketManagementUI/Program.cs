@@ -33,7 +33,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-	options.UseSqlServer(builder.Configuration.GetConnectionString("DbConn"));
+	options.UseSqlServer(builder.Configuration.GetConnectionString("DbConn")
+		, o => o.UseCompatibilityLevel(120));
 });
 
 builder.Services.AddScoped<IAccountService, AccountService>();
