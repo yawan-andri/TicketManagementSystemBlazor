@@ -5,6 +5,7 @@
 @inject ITicketService ticketService
 @inject ICriteriaService criteriaService
 @inject IAccountService accountService
+@inject NavigationManager nav
 
 <MudPopoverProvider />
 <SectionContent SectionName="page-title">Ticket Management</SectionContent>
@@ -30,6 +31,7 @@
     }
 
     .mud-grid-item {
+        padding-top: .3rem !important;
         padding-bottom: .3rem;
     }
 </style>
@@ -75,6 +77,8 @@
     T="GetTicketResponse" 
     SortMode="@SortMode.None" 
     ServerData="ServerReload" 
+    Hover="true"
+    RowClick="RowClick"
 >
     <Columns>
         <PropertyColumn Property="x => x.TicketIdView" Title="Ticket ID" />
@@ -158,6 +162,11 @@
             TotalItems = totalItems,
             Items = pagedData
         };
+    }
+
+    private void RowClick()
+    {
+        nav.NavigateTo($"/ticket/details/");
     }
 
     private Task Reset ()
