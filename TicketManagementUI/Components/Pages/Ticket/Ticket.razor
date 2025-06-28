@@ -164,9 +164,9 @@
         };
     }
 
-    private void RowClick()
+    private void RowClick(DataGridRowClickEventArgs<GetTicketResponse> args)
     {
-        nav.NavigateTo($"/ticket/details/");
+        nav.NavigateTo($"/ticket/details/{args.Item.TicketId}");
     }
 
     private Task Reset ()
